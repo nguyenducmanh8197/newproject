@@ -186,6 +186,7 @@ const TransactionListPage: React.FC = () => {
   const notify = useNotification();
 
   // Redux selectors
+  const transactions = useAppSelector((state) => state.transactions.transactions);
   const isLoading = useAppSelector(selectIsTransactionLoading);
   const pagination = useAppSelector(selectTransactionPagination);
   const error = useAppSelector(selectTransactionError);
@@ -202,9 +203,9 @@ const TransactionListPage: React.FC = () => {
   // Debounce search
   const debouncedSearchText = useDebounce(searchText, 500);
 
-  // Use mock data for now (until API is ready)
+  // Use Redux data (fallback to mock if empty)
   const displayTransactions = useMemo(() => {
-    let result = MOCK_TRANSACTIONS;
+    let result = transactions.length > 0 ? transactions : MOCK_TRANSACTIONS;
 
     // Filter by search text
     if (debouncedSearchText) {

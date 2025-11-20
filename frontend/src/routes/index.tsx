@@ -12,9 +12,13 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
-// Page imports (lazy loading)
-// TODO: import SignupPage from '@pages/auth/SignupPage';
-// TODO: import ForgotPasswordPage from '@pages/auth/ForgotPasswordPage';
+// Page imports
+import ForgotPasswordPage from '@pages/auth/ForgotPasswordPage';
+import SignupPage from '@pages/auth/SignupPage';
+import { AccountListPage } from '@pages/accounts';
+import { CategoryListPage } from '@pages/categories';
+import { ReportsPage } from '@pages/reports';
+import { TransactionDetailPage } from '@pages/transactions';
 
 /**
  * App Routes
@@ -36,7 +40,7 @@ export const AppRoutes: React.FC = () => {
         path="/signup"
         element={
           <AuthLayout>
-            <div>Signup Page - TODO</div>
+            <SignupPage />
           </AuthLayout>
         }
       />
@@ -44,7 +48,7 @@ export const AppRoutes: React.FC = () => {
         path="/forgot-password"
         element={
           <AuthLayout>
-            <div>Forgot Password Page - TODO</div>
+            <ForgotPasswordPage />
           </AuthLayout>
         }
       />
@@ -68,6 +72,52 @@ export const AppRoutes: React.FC = () => {
           <PrivateRoute>
             <DashboardLayout>
               <TransactionListPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/transactions/:id"
+        element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <TransactionDetailPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        }
+      />
+
+      {/* Private Routes - Accounts */}
+      <Route
+        path="/accounts"
+        element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <AccountListPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        }
+      />
+
+      {/* Private Routes - Categories */}
+      <Route
+        path="/categories"
+        element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <CategoryListPage />
+            </DashboardLayout>
+          </PrivateRoute>
+        }
+      />
+
+      {/* Private Routes - Reports */}
+      <Route
+        path="/reports"
+        element={
+          <PrivateRoute>
+            <DashboardLayout>
+              <ReportsPage />
             </DashboardLayout>
           </PrivateRoute>
         }

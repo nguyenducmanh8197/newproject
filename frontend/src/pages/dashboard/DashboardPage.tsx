@@ -4,10 +4,21 @@
  */
 
 import { ArrowDownOutlined, ArrowUpOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
-import { usePagination } from '@hooks/usePagination';
+import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
+import {
+  selectBalance,
+  selectExpenseRatio,
+  selectIsTransactionLoading,
+  selectTotalExpense,
+  selectTotalIncome,
+  selectTransactions,
+} from '@redux/modules/transactions';
+import { transactionActions } from '@redux/modules/transactions';
 import { formatCurrency, formatDate } from '@utils/formatters';
+import { ROUTES } from '@utils/constants';
 import { Button, Card, Col, Empty, Progress, Row, Statistic, Table } from 'antd';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 /**
@@ -77,93 +88,33 @@ const DashboardWrapper = styled.div`
 `;
 
 /**
- * Mock data for demonstration
+ * Dashboard Page Component
  */
-const MOCK_TRANSACTIONS: ITransaction[] = [
-  {
-    id: '1',
-    date: new Date('2024-11-19'),
-    category: 'Ăn uống',
-    amount: 150000,
-    type: 'expense',
-    account: 'Ví tiền mặt',
-    description: 'Lunch at restaurant',
-  },
-  {
-    id: '2',
-    date: new Date('2024-11-18'),
-    category: 'Lương',
-    amount: 5000000,
-    type: 'income',
-    account: 'Tài khoản ngân hàng',
-    description: 'Monthly salary',
-  },
-  {
-    id: '3',
-    date: new Date('2024-11-18'),
-    category: 'Điện nước',
-    amount: 250000,
-    type: 'expense',
-    account: 'Tài khoản ngân hàng',
-    description: 'Electricity bill',
-  },
-  {
-    id: '4',
-    date: new Date('2024-11-17'),
-    category: 'Giáo dục',
-    amount: 500000,
-    type: 'expense',
-    account: 'Ví tiền mặt',
-    description: 'Online course',
-  },
-  {
-    id: '5',
-    date: new Date('2024-11-17'),
-    category: 'Công việc thêm',
-    amount: 1000000,
-    type: 'income',
-    account: 'Tài khoản ngân hàng',
-    description: 'Freelance project',
-  },
-];
-
-interface ITransaction {
-  id: string;
-  date: Date;
-  category: string;
-  amount: number;
-  type: 'income' | 'expense';
-  account: string;
-  description: string;
-}
 
 /**
  * Dashboard Page Component
  */
 export const DashboardPage: React.FC = () => {
-  // Calculate statistics from mock data
-  const stats = useMemo(() => {
-    const totalIncome = MOCK_TRANSACTIONS.filter((t) => t.type === 'income').reduce(
-      (sum, t) => sum + t.amount,
-      0
-    );
-    const totalExpense = MOCK_TRANSACTIONS.filter((t) => t.type === 'expense').reduce(
-      (sum, t) => sum + t.amount,
-      0
-    );
-    const balance = totalIncome - totalExpense;
-    const expensePercent = (totalExpense / (totalIncome || 1)) * 100;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const transactions = useAppSelector(selectTransactions);
+  const isLoading = useAppSelector(selectIsTransactionLoading);
+  const totalIncome = useAppSelector(selectTotalIncome);
+  const totalExpense = useAppSelector(selectTotalExpense);
+  const balance = useAppSelector(selectBalance);
+  const expenseRatio = useAppSelector(selectExpenseRatio);
 
-    return {
-      totalIncome,
-      totalExpense,
-      balance,
-      expensePercent: Math.min(100, expensePercent),
-    };
-  }, []);
+  // Load transactions on mount
+  useEffect(() => {
+    dispatch(transactionActions.listTransactionsRequest({}));
+  }, [dispatch]);
 
-  // Paginate transactions
-  const { data: paginatedTransactions, pagination, goToPage } = usePagination(MOCK_TRANSACTIONS, 5);
+  // Get recent transactions (last 5)
+  const recentTransactions = useMemo(() => {
+    return [...transactions]
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, 5);
+  }, [transactions]);
 
   // Table columns
   const columns = [
@@ -172,24 +123,27 @@ export const DashboardPage: React.FC = () => {
       dataIndex: 'date',
       key: 'date',
       width: 120,
-      render: (date: Date) => formatDate(date, 'DD/MM/YYYY'),
+      render: (date: string) => formatDate(new Date(date), 'DD/MM/YYYY'),
     },
     {
       title: 'Danh mục',
       dataIndex: 'category',
       key: 'category',
       width: 120,
+      render: (_: any, record: any) => record.category?.name || 'N/A',
     },
     {
       title: 'Mô tả',
-      dataIndex: 'description',
-      key: 'description',
+      dataIndex: 'note',
+      key: 'note',
+      render: (note: string) => note || '-',
     },
     {
       title: 'Tài khoản',
       dataIndex: 'account',
       key: 'account',
       width: 150,
+      render: (_: any, record: any) => record.account?.name || 'N/A',
     },
     {
       title: 'Số tiền',
@@ -197,19 +151,27 @@ export const DashboardPage: React.FC = () => {
       key: 'amount',
       width: 120,
       align: 'right' as const,
-      render: (amount: number, record: ITransaction) => (
-        <span className={`amount ${record.type}`}>
-          {record.type === 'income' ? '+' : '-'}
-          {formatCurrency(amount)}
-        </span>
-      ),
+      render: (amount: number, record: any) => {
+        const isIncome = record.type === 'INCOME' || record.type === 1;
+        return (
+          <span className={`amount ${isIncome ? 'income' : 'expense'}`}>
+            {isIncome ? '+' : '-'}
+            {formatCurrency(amount)}
+          </span>
+        );
+      },
     },
     {
       title: 'Thao tác',
       key: 'action',
       width: 100,
-      render: () => (
-        <Button type="text" size="small" icon={<EyeOutlined />}>
+      render: (_: any, record: any) => (
+        <Button
+          type="text"
+          size="small"
+          icon={<EyeOutlined />}
+          onClick={() => navigate(`${ROUTES.TRANSACTIONS}/${record.id}`)}
+        >
           Xem
         </Button>
       ),
@@ -224,7 +186,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="stat-card balance" size="small">
             <Statistic
               title="Số dư"
-              value={stats.balance}
+              value={balance}
               prefix="₫"
               valueStyle={{ color: 'var(--primary-color)' }}
             />
@@ -234,7 +196,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="stat-card income" size="small">
             <Statistic
               title="Tổng thu nhập"
-              value={stats.totalIncome}
+              value={totalIncome}
               prefix="₫"
               suffix={<ArrowUpOutlined style={{ color: '#52c41a' }} />}
               valueStyle={{ color: '#52c41a' }}
@@ -245,7 +207,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="stat-card expense" size="small">
             <Statistic
               title="Tổng chi tiêu"
-              value={stats.totalExpense}
+              value={totalExpense}
               prefix="₫"
               suffix={<ArrowDownOutlined style={{ color: '#ff4d4f' }} />}
               valueStyle={{ color: '#ff4d4f' }}
@@ -258,7 +220,7 @@ export const DashboardPage: React.FC = () => {
               <div style={{ marginBottom: '8px', fontSize: '12px', color: 'rgba(0,0,0,0.45)' }}>
                 Tỷ lệ chi tiêu
               </div>
-              <Progress type="circle" percent={Math.round(stats.expensePercent)} width={50} />
+              <Progress type="circle" percent={Math.round(expenseRatio)} width={50} />
             </div>
           </Card>
         </Col>
@@ -271,29 +233,31 @@ export const DashboardPage: React.FC = () => {
             Giao dịch gần đây
           </h3>
           <div className="action-buttons">
-            <Button type="primary" icon={<PlusOutlined />}>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => navigate(ROUTES.TRANSACTIONS_CREATE)}
+            >
               Thêm giao dịch
             </Button>
-            <Button icon={<EyeOutlined />}>Xem tất cả</Button>
+            <Button icon={<EyeOutlined />} onClick={() => navigate(ROUTES.TRANSACTIONS)}>
+              Xem tất cả
+            </Button>
           </div>
         </div>
 
-        {paginatedTransactions.length > 0 ? (
+        {isLoading ? (
+          <div style={{ textAlign: 'center', padding: '40px' }}>Đang tải...</div>
+        ) : recentTransactions.length > 0 ? (
           <Table
             className="transactions-table"
             columns={columns}
-            dataSource={paginatedTransactions}
+            dataSource={recentTransactions}
             rowKey="id"
-            pagination={{
-              current: pagination.page,
-              pageSize: pagination.pageSize,
-              total: pagination.total,
-              onChange: goToPage,
-              showSizeChanger: false,
-              showTotal: (total) => `Tổng ${total} giao dịch`,
-            }}
+            pagination={false}
             size="small"
             style={{ marginTop: '16px' }}
+            loading={isLoading}
           />
         ) : (
           <Empty description="Không có giao dịch" style={{ marginTop: '24px' }} />

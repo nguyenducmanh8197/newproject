@@ -15,9 +15,12 @@ import {
   UserOutlined,
   WalletOutlined,
 } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
+import { authActions, selectUser } from '@redux/modules/auth';
 import { ROUTES } from '@utils/constants';
 import { Avatar, Button, Dropdown, Layout, Menu } from 'antd';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IDashboardLayoutProps {
@@ -99,6 +102,9 @@ const AppFooter = styled(Layout.Footer)`
  */
 export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const user = useAppSelector(selectUser);
 
   /**
    * Menu items for sidebar
@@ -108,31 +114,26 @@ export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) =
       key: ROUTES.DASHBOARD,
       icon: <HomeOutlined />,
       label: 'Dashboard',
-      onClick: () => (window.location.href = ROUTES.DASHBOARD),
     },
     {
       key: ROUTES.TRANSACTIONS,
       icon: <SwapOutlined />,
       label: 'Giao dịch',
-      onClick: () => (window.location.href = ROUTES.TRANSACTIONS),
     },
     {
       key: ROUTES.ACCOUNTS,
       icon: <WalletOutlined />,
       label: 'Tài khoản',
-      onClick: () => (window.location.href = ROUTES.ACCOUNTS),
     },
     {
       key: ROUTES.CATEGORIES,
       icon: <TagsOutlined />,
       label: 'Danh mục',
-      onClick: () => (window.location.href = ROUTES.CATEGORIES),
     },
     {
       key: ROUTES.REPORTS,
       icon: <BarChartOutlined />,
       label: 'Báo cáo',
-      onClick: () => (window.location.href = ROUTES.REPORTS),
     },
   ];
 
@@ -153,9 +154,8 @@ export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) =
       icon: <LogoutOutlined />,
       label: 'Đăng xuất',
       onClick: () => {
-        // TODO: Dispatch logout action
-        localStorage.clear();
-        window.location.href = ROUTES.LOGIN;
+        dispatch(authActions.logout());
+        navigate(ROUTES.LOGIN);
       },
     },
   ] as any[];
@@ -178,7 +178,9 @@ export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) =
             <Avatar
               icon={<UserOutlined />}
               style={{ backgroundColor: 'var(--primary-color)', cursor: 'pointer' }}
-            />
+            >
+              {user?.fullName?.[0]?.toUpperCase()}
+            </Avatar>
           </Dropdown>
         </div>
       </AppHeader>
@@ -187,7 +189,12 @@ export const DashboardLayout: React.FC<IDashboardLayoutProps> = ({ children }) =
       <Layout style={{ minHeight: 'calc(100vh - 64px)' }}>
         {/* Sidebar */}
         <AppSider collapsible collapsedWidth={80} collapsed={collapsed} width={200} theme="dark">
-          <Menu mode="inline" defaultSelectedKeys={[ROUTES.DASHBOARD]} items={menuItems} />
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={[window.location.pathname]}
+            items={menuItems}
+            onClick={({ key }) => navigate(key)}
+          />
         </AppSider>
 
         {/* Content */}

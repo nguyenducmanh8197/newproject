@@ -1,22 +1,22 @@
 /**
- * Login Page
- * Handle user login with email and password
+ * Signup Page
+ * Handle user registration with email, password, and fullName
  */
 
-import { GithubOutlined, GoogleOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
+import { GithubOutlined, GoogleOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { authActions, selectError, selectIsAuthenticated, selectIsLoading } from '@redux/modules/auth';
 import { ROUTES } from '@utils/constants';
-import { Button, Checkbox, Divider, Form, Input, message, Space } from 'antd';
+import { Button, Divider, Form, Input, message, Space } from 'antd';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 /**
  * Styled Components
  */
 const FormWrapper = styled.div`
-  .login-form-button {
+  .signup-form-button {
     width: 100%;
   }
 
@@ -36,7 +36,7 @@ const FormWrapper = styled.div`
     }
   }
 
-  .signup-link {
+  .login-link {
     text-align: center;
     margin-top: 16px;
 
@@ -53,28 +53,19 @@ const FormWrapper = styled.div`
       }
     }
   }
-
-  .forgot-password {
-    float: right;
-    color: var(--primary-color);
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 `;
 
-interface ILoginForm {
+interface ISignupForm {
+  fullName: string;
   email: string;
   password: string;
-  remember?: boolean;
+  confirmPassword: string;
 }
 
 /**
- * Login Page Component
+ * Signup Page Component
  */
-export const LoginPage: React.FC = () => {
+export const SignupPage: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -85,23 +76,24 @@ export const LoginPage: React.FC = () => {
   /**
    * Handle form submission
    */
-  const onFinish = async (values: ILoginForm) => {
+  const onFinish = async (values: ISignupForm) => {
     try {
-      // Dispatch login action with email and password
+      // Dispatch signup action
       dispatch(
-        authActions.loginRequest({
+        authActions.signupRequest({
           email: values.email,
           password: values.password,
+          fullName: values.fullName,
         })
       );
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : 'Đăng nhập thất bại';
+      const errorMsg = err instanceof Error ? err.message : 'Đăng ký thất bại';
       message.error(errorMsg);
     }
   };
 
   /**
-   * Handle login success/error
+   * Handle error display
    */
   React.useEffect(() => {
     if (error) {
@@ -110,18 +102,31 @@ export const LoginPage: React.FC = () => {
   }, [error]);
 
   /**
-   * Redirect to dashboard on successful login
+   * Redirect to dashboard on successful signup
    */
   React.useEffect(() => {
     if (isAuthenticated && !isLoading) {
       navigate(ROUTES.DASHBOARD);
-      message.success('Đăng nhập thành công!');
+      message.success('Đăng ký thành công!');
     }
   }, [isAuthenticated, isLoading, navigate]);
 
   return (
     <FormWrapper>
       <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
+        {/* Full Name Field */}
+        <Form.Item
+          name="fullName"
+          label="Họ và tên"
+          rules={[
+            { required: true, message: 'Vui lòng nhập họ và tên' },
+            { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự' },
+            { max: 100, message: 'Họ và tên không được vượt quá 100 ký tự' },
+          ]}
+        >
+          <Input prefix={<UserOutlined />} placeholder="Nguyễn Văn A" size="large" />
+        </Form.Item>
+
         {/* Email Field */}
         <Form.Item
           name="email"
@@ -143,21 +148,35 @@ export const LoginPage: React.FC = () => {
         <Form.Item
           name="password"
           label="Mật khẩu"
-          rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
+          rules={[
+            { required: true, message: 'Vui lòng nhập mật khẩu' },
+            { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' },
+            { max: 50, message: 'Mật khẩu không được vượt quá 50 ký tự' },
+          ]}
+          hasFeedback
         >
           <Input.Password prefix={<LockOutlined />} placeholder="Nhập mật khẩu" size="large" />
         </Form.Item>
 
-        {/* Remember me & Forgot password */}
-        <Form.Item>
-          <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Nhớ tôi</Checkbox>
-            </Form.Item>
-            <a href={ROUTES.FORGOT_PASSWORD} className="forgot-password">
-              Quên mật khẩu?
-            </a>
-          </Space>
+        {/* Confirm Password Field */}
+        <Form.Item
+          name="confirmPassword"
+          label="Xác nhận mật khẩu"
+          dependencies={['password']}
+          rules={[
+            { required: true, message: 'Vui lòng xác nhận mật khẩu' },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('Mật khẩu xác nhận không khớp'));
+              },
+            }),
+          ]}
+          hasFeedback
+        >
+          <Input.Password prefix={<LockOutlined />} placeholder="Nhập lại mật khẩu" size="large" />
         </Form.Item>
 
         {/* Submit Button */}
@@ -165,18 +184,18 @@ export const LoginPage: React.FC = () => {
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className="signup-form-button"
             size="large"
             loading={isLoading}
           >
-            Đăng nhập
+            Đăng ký
           </Button>
         </Form.Item>
 
         {/* Divider */}
         <Divider>hoặc</Divider>
 
-        {/* Social Login Buttons */}
+        {/* Social Signup Buttons */}
         <Form.Item>
           <Space className="social-buttons">
             <Button
@@ -198,10 +217,10 @@ export const LoginPage: React.FC = () => {
           </Space>
         </Form.Item>
 
-        {/* Signup Link */}
-        <div className="signup-link">
+        {/* Login Link */}
+        <div className="login-link">
           <span>
-            Chưa có tài khoản? <a href={ROUTES.SIGNUP}>Đăng ký ngay</a>
+            Đã có tài khoản? <Link to={ROUTES.LOGIN}>Đăng nhập ngay</Link>
           </span>
         </div>
       </Form>
@@ -209,4 +228,5 @@ export const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;
+

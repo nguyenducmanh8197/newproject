@@ -5,7 +5,7 @@
 
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { IUser } from '../../../types/models/index';
-import type { IAuthState } from './authTypes';
+import type { IAuthState, ILoginPayload, ISignupPayload } from './authTypes';
 
 /**
  * Initial auth state
@@ -29,7 +29,7 @@ const authSlice = createSlice({
     /**
      * Login request started
      */
-    loginRequest: (state) => {
+    loginRequest: (state, _action: PayloadAction<ILoginPayload>) => {
       state.isLoading = true;
       state.error = null;
     },
@@ -68,7 +68,7 @@ const authSlice = createSlice({
     /**
      * Signup request started
      */
-    signupRequest: (state) => {
+    signupRequest: (state, _action: PayloadAction<ISignupPayload>) => {
       state.isLoading = true;
       state.error = null;
     },
