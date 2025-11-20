@@ -1,16 +1,17 @@
 # Frontend Development Progress - Real-time Status
 
-## 📊 Overall Progress: 35% Complete
+## 📊 Overall Progress: 40% Complete
 
-**Completed Tasks**: 5/12 main phases  
+**Completed Tasks**: 6/12 main phases  
 **Current Build Status**: ✅ PASSING  
 **Last Updated**: November 19, 2025
 
 ---
 
-## ✅ Completed (This Session)
+## ✅ Completed (This Session & Previous)
 
 ### 1. Atomic Components Library (6/10)
+
 ✅ Button - All variants and states
 ✅ Input - Full form input with validation
 ✅ Card - Container with headers/footers
@@ -19,74 +20,109 @@
 ✅ LoadingSpinner - Animated loading indicator
 
 ### 2. Molecules Library (1/5)
+
 ✅ FormField - Wrapper for form inputs
 
 ### 3. Redux Modules (2/6)
-✅ **Account Module**
-   - accountSlice.ts: 14 reducers
-   - accountSaga.ts: All watchers
-   - accountSelectors.ts: 10+ memoized selectors
-   - accountTypes.ts: Full TypeScript support
 
-✅ **Category Module**  
-   - categorySlice.ts: 14 reducers
-   - categorySaga.ts: All watchers
-   - categorySelectors.ts: 10+ memoized selectors
-   - categoryTypes.ts: Full TypeScript support
+✅ **Account Module**
+
+- accountSlice.ts: 14 reducers
+- accountSaga.ts: All watchers
+- accountSelectors.ts: 10+ memoized selectors
+- accountTypes.ts: Full TypeScript support
+
+✅ **Category Module**
+
+- categorySlice.ts: 14 reducers
+- categorySaga.ts: All watchers
+- categorySelectors.ts: 10+ memoized selectors
+- categoryTypes.ts: Full TypeScript support
 
 ### 4. Redux Store Integration
+
 ✅ Updated store.ts with 4 reducers
 ✅ Updated rootSaga.ts with 4 sagas
 ✅ All modules properly registered
+
+### 5. Service Layer (NEW) ✅
+
+✅ **accountService.ts** - CRUD operations
+- listAccounts() - With pagination & filters
+- getAccount(id) - Single account fetch
+- createAccount() - Create new account
+- updateAccount() - Update existing
+- deleteAccount() - Remove account
+
+✅ **categoryService.ts** - Mirror patterns
+- All CRUD methods matching accountService
+- Consistent error handling
+- Type-safe throughout
+
+### 6. Account Management Pages (NEW) ✅
+
+✅ **AccountListPage.tsx** - 260 lines
+- Ant Design Table with full functionality
+- Delete with confirmation modal
+- Edit navigation with state passing
+- Pagination with size selector
+- Loading and error states
+- Redux state integration
+- Styled-components styling
 
 ---
 
 ## 🔄 In Progress
 
-### Account Management Pages
-- [ ] Create AccountListPage component
-- [ ] Create AccountForm molecule
-- [ ] Create account service (API integration)
-- [ ] Add account CRUD operations
+### Category Management Pages
 
-### Category Management Pages  
 - [ ] Create CategoryListPage component
-- [ ] Create CategoryForm with color picker
-- [ ] Add icon selector
-- [ ] Create category service (API integration)
+- [ ] Create CategoryFormPage component
+- [ ] Add color picker support
+- [ ] Icon selector
+
+### Account Form Page
+
+- [ ] Create AccountFormPage component
+- [ ] Form validation
+- [ ] Edit mode support
+- [ ] Navigation handling
 
 ---
 
 ## 📋 TODO - Next Steps
 
-### Phase 1: Pages Creation (3-4 hours)
+### Phase 2: Remaining Page Components (2-3 hours)
 
 #### Account Management
+
 ```
 src/pages/accounts/
-├── AccountListPage.tsx      - List view with filters
-├── AccountFormPage.tsx      - Create/Edit form
-└── AccountDetailPage.tsx    - Account details & transactions
+├── AccountListPage.tsx      - ✅ DONE
+├── AccountFormPage.tsx      - TODO: Create/Edit form
+└── AccountDetailPage.tsx    - TODO: Details view (optional)
 ```
 
 #### Category Management
+
 ```
 src/pages/categories/
-├── CategoryListPage.tsx     - List view
-├── CategoryFormPage.tsx     - Create/Edit with color picker
-└── icons.tsx               - Icon selector component
+├── CategoryListPage.tsx     - TODO: List view (mirror patterns)
+├── CategoryFormPage.tsx     - TODO: Create/Edit with color picker
+└── CategoryDetailPage.tsx   - TODO: Details view (optional)
 ```
 
 #### Components
+
 ```
 src/components/
 ├── organisms/
-│   ├── AccountTable/        - Reusable account table
-│   ├── CategoryTable/       - Reusable category table
-│   └── StatisticsCard/      - Dashboard stats
+│   ├── CategoryTable/       - TODO: Reusable category table
+│   └── StatisticsCard/      - TODO: Dashboard stats
 ├── molecules/
-│   ├── AccountForm/         - Account form molecule
-│   ├── CategoryForm/        - Category form molecule
+│   ├── AccountForm/         - TODO: Account form wrapper
+│   └── CategoryForm/        - TODO: Category form wrapper
+```
 │   └── FilterBar/          - Filter component
 ```
 
@@ -129,19 +165,16 @@ src/pages/reports/
 ## 🚀 Quick Start Guide
 
 ### To Use Atomic Components:
+
 ```typescript
 import { Button, Input, Card, Badge, Select, LoadingSpinner } from '@/components/atoms';
 
 // In your component
-<Button 
-  label="Click me" 
-  variant="primary" 
-  loading={isLoading}
-  onClick={handleClick}
-/>
+<Button label="Click me" variant="primary" loading={isLoading} onClick={handleClick} />;
 ```
 
 ### To Use FormField:
+
 ```typescript
 import { FormField } from '@/components/molecules';
 
@@ -154,10 +187,11 @@ import { FormField } from '@/components/molecules';
   onChange={setUsername}
   required
   error={errors.username}
-/>
+/>;
 ```
 
 ### To Use Redux (Account Example):
+
 ```typescript
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { accountActions, selectAccounts } from '@/redux/modules/accounts';
@@ -167,11 +201,13 @@ const dispatch = useAppDispatch();
 const accounts = useAppSelector(selectAccounts);
 
 // Dispatch action
-dispatch(accountActions.createAccountRequest({
-  name: 'My Savings',
-  type: AccountType.BANK,
-  initialBalance: 5000000,
-}));
+dispatch(
+  accountActions.createAccountRequest({
+    name: 'My Savings',
+    type: AccountType.BANK,
+    initialBalance: 5000000,
+  })
+);
 
 // Or fetch
 dispatch(accountActions.listAccountsRequest({}));
@@ -182,28 +218,30 @@ dispatch(accountActions.listAccountsRequest({}));
 ## 📦 Available Selectors
 
 ### Account Selectors
+
 ```typescript
-selectAccounts                    // All accounts
-selectCurrentAccount             // Currently selected
-selectIsAccountLoading          // Loading state
-selectAccountError              // Error message
-selectAccountPagination         // Pagination info
-selectTotalBalance              // Sum of balances
-selectActiveAccounts            // Only active ones
-selectAccountsByType            // Grouped by type
-selectIsAccountsEmpty           // No accounts?
+selectAccounts; // All accounts
+selectCurrentAccount; // Currently selected
+selectIsAccountLoading; // Loading state
+selectAccountError; // Error message
+selectAccountPagination; // Pagination info
+selectTotalBalance; // Sum of balances
+selectActiveAccounts; // Only active ones
+selectAccountsByType; // Grouped by type
+selectIsAccountsEmpty; // No accounts?
 ```
 
 ### Category Selectors
+
 ```typescript
-selectCategories                // All categories
-selectCurrentCategory           // Currently selected
-selectIsCategoryLoading        // Loading state
-selectCategoryError            // Error message
-selectCategoryPagination       // Pagination info
-selectCategoriesByType         // Filter by type
-selectCategoriesGroupedByType  // Grouped
-selectIsCategoriesEmpty        // No categories?
+selectCategories; // All categories
+selectCurrentCategory; // Currently selected
+selectIsCategoryLoading; // Loading state
+selectCategoryError; // Error message
+selectCategoryPagination; // Pagination info
+selectCategoriesByType; // Filter by type
+selectCategoriesGroupedByType; // Grouped
+selectIsCategoriesEmpty; // No categories?
 ```
 
 ---
@@ -256,6 +294,7 @@ frontend/
 ## 🎯 Development Workflow
 
 ### Step 1: Create Page Component
+
 ```typescript
 // src/pages/accounts/AccountListPage.tsx
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -266,17 +305,14 @@ import DashboardLayout from '@/components/templates/DashboardLayout';
 export const AccountListPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const accounts = useAppSelector(selectAccounts);
-  
+
   // Component logic
-  return (
-    <DashboardLayout>
-      {/* Content */}
-    </DashboardLayout>
-  );
+  return <DashboardLayout>{/* Content */}</DashboardLayout>;
 };
 ```
 
 ### Step 2: Create Form Component
+
 ```typescript
 // src/components/molecules/AccountForm/AccountForm.tsx
 import { FormField } from '@/components/molecules';
@@ -289,14 +325,19 @@ export const AccountForm: React.FC<IAccountFormProps> = ({ onSubmit }) => {
     type: AccountType.BANK,
     initialBalance: 0,
   });
-  
+
   return (
-    <form onSubmit={(e) => { e.preventDefault(); onSubmit(formData); }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onSubmit(formData);
+      }}
+    >
       <FormField
         name="name"
         label="Account Name"
         value={formData.name}
-        onChange={(name) => setFormData({...formData, name: name as string})}
+        onChange={(name) => setFormData({ ...formData, name: name as string })}
         required
       />
       {/* More fields */}
@@ -307,11 +348,14 @@ export const AccountForm: React.FC<IAccountFormProps> = ({ onSubmit }) => {
 ```
 
 ### Step 3: Use in Page
+
 ```typescript
 // In AccountListPage.tsx
-<AccountForm onSubmit={(data) => {
-  dispatch(accountActions.createAccountRequest(data));
-}} />
+<AccountForm
+  onSubmit={(data) => {
+    dispatch(accountActions.createAccountRequest(data));
+  }}
+/>
 ```
 
 ---
