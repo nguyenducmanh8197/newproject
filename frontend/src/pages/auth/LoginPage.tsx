@@ -4,7 +4,6 @@
  */
 
 import { GithubOutlined, GoogleOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { AuthLayout } from '@components/templates/AuthLayout';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { authActions, selectError, selectIsLoading } from '@redux/modules/auth';
 import { ROUTES } from '@utils/constants';
@@ -115,94 +114,92 @@ export const LoginPage: React.FC = () => {
   }, [error]);
 
   return (
-    <AuthLayout>
-      <FormWrapper>
-        <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
-          {/* Email Field */}
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              { required: true, message: 'Vui lòng nhập email' },
-              { type: 'email', message: 'Email không hợp lệ' },
-            ]}
+    <FormWrapper>
+      <Form form={form} layout="vertical" onFinish={onFinish} autoComplete="off">
+        {/* Email Field */}
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            { required: true, message: 'Vui lòng nhập email' },
+            { type: 'email', message: 'Email không hợp lệ' },
+          ]}
+        >
+          <Input
+            prefix={<MailOutlined />}
+            placeholder="example@email.com"
+            type="email"
+            size="large"
+          />
+        </Form.Item>
+
+        {/* Password Field */}
+        <Form.Item
+          name="password"
+          label="Mật khẩu"
+          rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
+        >
+          <Input.Password prefix={<LockOutlined />} placeholder="Nhập mật khẩu" size="large" />
+        </Form.Item>
+
+        {/* Remember me & Forgot password */}
+        <Form.Item>
+          <Space style={{ width: '100%', justifyContent: 'space-between' }}>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Nhớ tôi</Checkbox>
+            </Form.Item>
+            <a href={ROUTES.FORGOT_PASSWORD} className="forgot-password">
+              Quên mật khẩu?
+            </a>
+          </Space>
+        </Form.Item>
+
+        {/* Submit Button */}
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            size="large"
+            loading={isLoading}
           >
-            <Input
-              prefix={<MailOutlined />}
-              placeholder="example@email.com"
-              type="email"
-              size="large"
-            />
-          </Form.Item>
+            Đăng nhập
+          </Button>
+        </Form.Item>
 
-          {/* Password Field */}
-          <Form.Item
-            name="password"
-            label="Mật khẩu"
-            rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
-          >
-            <Input.Password prefix={<LockOutlined />} placeholder="Nhập mật khẩu" size="large" />
-          </Form.Item>
+        {/* Divider */}
+        <Divider>hoặc</Divider>
 
-          {/* Remember me & Forgot password */}
-          <Form.Item>
-            <Space style={{ width: '100%', justifyContent: 'space-between' }}>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Nhớ tôi</Checkbox>
-              </Form.Item>
-              <a href={ROUTES.FORGOT_PASSWORD} className="forgot-password">
-                Quên mật khẩu?
-              </a>
-            </Space>
-          </Form.Item>
-
-          {/* Submit Button */}
-          <Form.Item>
+        {/* Social Login Buttons */}
+        <Form.Item>
+          <Space className="social-buttons">
             <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
+              className="social-btn"
+              icon={<GoogleOutlined />}
               size="large"
-              loading={isLoading}
+              disabled={isLoading}
             >
-              Đăng nhập
+              Google
             </Button>
-          </Form.Item>
+            <Button
+              className="social-btn"
+              icon={<GithubOutlined />}
+              size="large"
+              disabled={isLoading}
+            >
+              GitHub
+            </Button>
+          </Space>
+        </Form.Item>
 
-          {/* Divider */}
-          <Divider>hoặc</Divider>
-
-          {/* Social Login Buttons */}
-          <Form.Item>
-            <Space className="social-buttons">
-              <Button
-                className="social-btn"
-                icon={<GoogleOutlined />}
-                size="large"
-                disabled={isLoading}
-              >
-                Google
-              </Button>
-              <Button
-                className="social-btn"
-                icon={<GithubOutlined />}
-                size="large"
-                disabled={isLoading}
-              >
-                GitHub
-              </Button>
-            </Space>
-          </Form.Item>
-
-          {/* Signup Link */}
-          <div className="signup-link">
-            <span>
-              Chưa có tài khoản? <a href={ROUTES.SIGNUP}>Đăng ký ngay</a>
-            </span>
-          </div>
-        </Form>
-      </FormWrapper>
-    </AuthLayout>
+        {/* Signup Link */}
+        <div className="signup-link">
+          <span>
+            Chưa có tài khoản? <a href={ROUTES.SIGNUP}>Đăng ký ngay</a>
+          </span>
+        </div>
+      </Form>
+    </FormWrapper>
   );
 };
 

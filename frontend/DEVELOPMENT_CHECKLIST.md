@@ -124,16 +124,16 @@
 
 ### 7. Atomic Components Library (Week 4)
 
-- [ ] Button (primary, secondary, loading states)
-- [ ] Input (text, email, password with validation)
-- [ ] Select (dropdown with enum options)
+- [x] Button (primary, secondary, loading states)
+- [x] Input (text, email, password with validation)
+- [x] Select (dropdown with enum options)
+- [x] Card component
+- [x] Badge component (with colors and icons)
+- [x] Loading spinner
 - [ ] DatePicker (with Ant Design)
 - [ ] Checkbox
 - [ ] Radio buttons
-- [ ] Card component
-- [ ] Badge component
-- [ ] Badge with icons and colors
-- [ ] Loading spinner
+- [ ] Tooltip component
 
 ### 8. Transaction Management (Week 5)
 
@@ -223,14 +223,14 @@
 
 | Component    | Status         | Est. Files | Complexity |
 | ------------ | -------------- | ---------- | ---------- |
-| Auth Module  | 🟥 Not Started | 10+        | High       |
-| Dashboard    | 🟥 Not Started | 15+        | Medium     |
-| Transactions | 🟥 Not Started | 20+        | High       |
-| Accounts     | 🟥 Not Started | 15+        | Medium     |
-| Categories   | 🟥 Not Started | 15+        | Medium     |
+| Auth Module  | � Done        | 10+        | High       |
+| Dashboard    | � In Progress | 15+        | Medium     |
+| Transactions | � In Progress | 20+        | High       |
+| Accounts     | � Redux Done  | 15+        | Medium     |
+| Categories   | � Redux Done  | 15+        | Medium     |
+| Components   | � 6/10 Done   | 50+        | Low        |
 | Reports      | 🟥 Not Started | 20+        | Medium     |
-| Components   | 🟥 Not Started | 50+        | Low        |
-| **Total**    |                | ~145+      |            |
+| **Total**    | **35% Done**   | ~145+      |            |
 
 ## 🎯 Weekly Breakdown
 

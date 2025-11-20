@@ -6,6 +6,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { authReducer } from './modules/auth';
 import { transactionReducer } from './modules/transactions';
+import { accountReducer } from './modules/accounts';
+import { categoryReducer } from './modules/categories';
 import rootSaga from './rootSaga';
 
 // Saga middleware
@@ -18,6 +20,8 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     transactions: transactionReducer,
+    accounts: accountReducer,
+    categories: categoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
