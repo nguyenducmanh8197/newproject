@@ -12,30 +12,35 @@
 **Created 6 Essential Atoms:**
 
 1. **Button** (`src/components/atoms/Button/`)
+
    - Variants: primary, secondary, danger, ghost
    - Sizes: small, medium, large
    - States: loading, disabled
    - Icon support
 
 2. **Input** (`src/components/atoms/Input/`)
+
    - Types: text, email, password, number, date, tel
    - Error handling with validation messages
    - Prefix/suffix support
    - Size variants
 
 3. **Card** (`src/components/atoms/Card/`)
+
    - Title, content, footer, extra sections
    - Hoverable with elevation
    - Customizable padding and borders
    - Flexible layout
 
 4. **Badge** (`src/components/atoms/Badge/`)
+
    - Color variants: default, success, warning, error, info, processing
    - Size options: small, medium, large
    - Icon support
    - Rounded style option
 
 5. **Select** (`src/components/atoms/Select/`)
+
    - Dropdown with search functionality
    - Clearable option
    - Disabled options support
@@ -73,7 +78,6 @@
   - IAccount, ICreateAccountPayload, IUpdateAccountPayload, IDeleteAccountPayload
   - IAccountState, IPagination, IFilters
   - Full type safety
-  
 - `accountSlice.ts` - Redux reducers (14 reducers)
   - listAccountsRequest/Success/Failure
   - createAccountRequest/Success/Failure
@@ -82,14 +86,13 @@
   - getAccountDetailRequest/Success/Failure
   - setAccountFilters, setAccountPage
   - clearAccountErrors, resetAccountState
-  
 - `accountSaga.ts` - Redux saga for side effects
   - Watchers for all actions
   - Placeholder for API integration
   - Mock data ready for testing
   - Error handling
-  
 - `accountSelectors.ts` - Memoized selectors
+
   - selectAccounts, selectCurrentAccount
   - selectIsAccountLoading, selectAccountError, selectAccountPagination
   - selectAccountById, selectTotalBalance
@@ -106,19 +109,17 @@
   - ICategory, ICreateCategoryPayload, IUpdateCategoryPayload, IDeleteCategoryPayload
   - ICategoryState, IPagination, IFilters
   - CategoryType support (INCOME=1, EXPENSE=2)
-  
 - `categorySlice.ts` - Redux reducers (14 reducers)
   - Mirror structure of Account module
   - Full CRUD operations
   - Error handling per operation
-  
 - `categorySaga.ts` - Redux saga
   - Watchers for all category actions
   - Placeholder for API calls
   - Mock data ready
   - Error handling
-  
 - `categorySelectors.ts` - Memoized selectors
+
   - selectCategories, selectCurrentCategory
   - selectCategoryById, selectCategoriesByType
   - selectCategoriesGroupedByType
@@ -145,10 +146,7 @@ reducer: {
 
 ```typescript
 // rootSaga.ts - Now forks:
-- authSaga
-- transactionSaga
-- accountSaga
-- categorySaga
+-authSaga - transactionSaga - accountSaga - categorySaga;
 ```
 
 ---
@@ -156,17 +154,20 @@ reducer: {
 ## 📊 Project Stats After Session 3
 
 ### Files Created This Session:
+
 - **Component Files**: 18 (atoms + molecules)
 - **Redux Files**: 14 (account + category modules)
 - **Total New Files**: 32
 
 ### Build Status:
+
 - ✅ TypeScript compilation: PASS
 - ✅ Vite build: PASS (2.04s)
 - ✅ No errors or warnings
 - ✅ Bundle size: ~1.3MB gzipped
 
 ### File Structure:
+
 ```
 src/
 ├── components/
@@ -198,7 +199,9 @@ src/
 ## 🎯 What's Ready to Use
 
 ### Atoms Components:
+
 All atoms are production-ready with:
+
 - ✅ Full TypeScript types
 - ✅ Styled-components styling
 - ✅ Error states
@@ -208,14 +211,18 @@ All atoms are production-ready with:
 - ✅ Ready to import: `import { Button, Input, Card } from '@/components/atoms'`
 
 ### Molecules Components:
+
 FormField molecule is ready:
+
 - ✅ Works with Input and Select
 - ✅ Type-safe props
 - ✅ Supports all validations
 - ✅ Ready to import: `import { FormField } from '@/components/molecules'`
 
 ### Redux Modules:
+
 Both Account and Category modules are ready:
+
 - ✅ Full CRUD action creators
 - ✅ Memoized selectors
 - ✅ Error handling per operation
@@ -229,6 +236,7 @@ Both Account and Category modules are ready:
 ## 🔄 Integration Example
 
 ### Using Button Atom:
+
 ```typescript
 import { Button } from '@/components/atoms';
 
@@ -238,10 +246,11 @@ import { Button } from '@/components/atoms';
   size="medium"
   onClick={handleCreate}
   loading={isLoading}
-/>
+/>;
 ```
 
 ### Using FormField Molecule:
+
 ```typescript
 import { FormField } from '@/components/molecules';
 import { AccountType } from '@/constants/enums';
@@ -274,6 +283,7 @@ import { AccountType } from '@/constants/enums';
 ```
 
 ### Using Redux Selectors:
+
 ```typescript
 import { useAppSelector } from '@/hooks';
 import { selectAccounts, selectIsAccountLoading } from '@/redux/modules/accounts';
@@ -281,33 +291,38 @@ import { selectAccounts, selectIsAccountLoading } from '@/redux/modules/accounts
 function MyComponent() {
   const accounts = useAppSelector(selectAccounts);
   const isLoading = useAppSelector(selectIsAccountLoading);
-  
+
   return (
     <>
       {isLoading && <LoadingSpinner text="Loading accounts..." />}
-      {accounts.map(acc => <AccountCard key={acc.id} account={acc} />)}
+      {accounts.map((acc) => (
+        <AccountCard key={acc.id} account={acc} />
+      ))}
     </>
   );
 }
 ```
 
 ### Using Redux Actions:
+
 ```typescript
 import { useAppDispatch } from '@/hooks';
 import { accountActions } from '@/redux/modules/accounts';
 
 function AccountForm() {
   const dispatch = useAppDispatch();
-  
+
   const handleSubmit = (formData) => {
-    dispatch(accountActions.createAccountRequest({
-      name: formData.name,
-      type: formData.type,
-      initialBalance: formData.balance,
-      currency: 'VND',
-    }));
+    dispatch(
+      accountActions.createAccountRequest({
+        name: formData.name,
+        type: formData.type,
+        initialBalance: formData.balance,
+        currency: 'VND',
+      })
+    );
   };
-  
+
   return <form onSubmit={handleSubmit}>...</form>;
 }
 ```
@@ -317,6 +332,7 @@ function AccountForm() {
 ## 📝 Next Steps (TODO)
 
 ### Phase 3.1: Transaction Management Page
+
 - [ ] Create TransactionForm component
 - [ ] Implement TransactionListPage with filters
 - [ ] Add date range picker
@@ -324,6 +340,7 @@ function AccountForm() {
 - [ ] Add status indicators
 
 ### Phase 3.2: Account Management Page
+
 - [ ] Create AccountForm molecule
 - [ ] Create AccountListPage component
 - [ ] Implement account creation flow
@@ -331,6 +348,7 @@ function AccountForm() {
 - [ ] Add balance display
 
 ### Phase 3.3: Category Management Page
+
 - [ ] Create CategoryForm with color picker
 - [ ] Create CategoryListPage
 - [ ] Add icon selector
@@ -338,6 +356,7 @@ function AccountForm() {
 - [ ] Add category grouping
 
 ### Phase 3.4: Service Layer
+
 - [ ] Create accountService.ts
 - [ ] Create categoryService.ts
 - [ ] Implement API calls
@@ -345,12 +364,14 @@ function AccountForm() {
 - [ ] Add mock data for dev
 
 ### Phase 3.5: Reports & Dashboard Enhancement
+
 - [ ] Create charts/graphs component
 - [ ] Add Summary page
 - [ ] Implement analytics
 - [ ] Add export functionality
 
 ### Phase 3.6: UI/UX Polish
+
 - [ ] Add loading skeletons
 - [ ] Implement empty states
 - [ ] Add error boundaries
@@ -362,10 +383,11 @@ function AccountForm() {
 ## 📚 Component Documentation
 
 ### Button Props:
+
 ```typescript
 interface IButtonProps {
-  label: string;                           // Button text
-  onClick?: () => void;                    // Click handler
+  label: string; // Button text
+  onClick?: () => void; // Click handler
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
@@ -375,6 +397,7 @@ interface IButtonProps {
 ```
 
 ### Input Props:
+
 ```typescript
 interface IInputProps {
   label?: string;
@@ -390,6 +413,7 @@ interface IInputProps {
 ```
 
 ### FormField Props:
+
 ```typescript
 interface IFormFieldProps {
   name: string;
@@ -410,33 +434,39 @@ interface IFormFieldProps {
 ## ✨ Key Features Implemented
 
 ✅ **Atomic Design Pattern**
+
 - Clean separation of concerns
 - Reusable components
 - Easy to maintain and extend
 
 ✅ **Redux State Management**
+
 - Centralized state
 - Predictable state updates
 - Time-travel debugging support
 - Memoized selectors for performance
 
 ✅ **Type Safety**
+
 - Full TypeScript support
 - No `any` types
 - IntelliSense support
 - Compile-time error checking
 
 ✅ **Error Handling**
+
 - Per-operation error tracking
 - User-friendly error messages
 - Graceful fallbacks
 
 ✅ **Styling**
+
 - Styled-components
 - Consistent theme
 - Responsive design
 
 ✅ **Performance**
+
 - Memoized selectors with reselect
 - Code splitting ready
 - Optimized re-renders
@@ -446,6 +476,7 @@ interface IFormFieldProps {
 ## 🛠️ Development Tips
 
 ### To use components in your pages:
+
 ```typescript
 import { Button, Input, Card, Badge } from '@/components/atoms';
 import { FormField } from '@/components/molecules';
@@ -453,20 +484,21 @@ import { accountActions, selectAccounts } from '@/redux/modules/accounts';
 ```
 
 ### To add new selectors:
+
 ```typescript
 // In categorySelectors.ts
-export const selectExpenseCategories = createSelector(
-  [selectCategories],
-  (cats: any[]) => cats.filter((cat: any) => cat.type === CategoryType.EXPENSE)
+export const selectExpenseCategories = createSelector([selectCategories], (cats: any[]) =>
+  cats.filter((cat: any) => cat.type === CategoryType.EXPENSE)
 );
 ```
 
 ### To add new actions:
+
 ```typescript
 // In accountSlice.ts
 setSomeFilter: (state, action: PayloadAction<string>) => {
   state.filters.someFilter = action.payload;
-}
+};
 ```
 
 ---

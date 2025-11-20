@@ -17,7 +17,7 @@ import { Button } from '@/components/atoms';
 <Button label="Click me" onClick={handleClick} />
 
 // Primary button with loading
-<Button 
+<Button
   label="Save Changes"
   variant="primary"
   loading={isLoading}
@@ -25,27 +25,27 @@ import { Button } from '@/components/atoms';
 />
 
 // Secondary button (outline style)
-<Button 
+<Button
   label="Cancel"
   variant="secondary"
   onClick={handleCancel}
 />
 
 // Danger button (delete action)
-<Button 
+<Button
   label="Delete Account"
   variant="danger"
   onClick={handleDelete}
 />
 
 // Ghost button (transparent)
-<Button 
+<Button
   label="Learn More"
   variant="ghost"
 />
 
 // Button with icon
-<Button 
+<Button
   label="Add New"
   icon={<PlusOutlined />}
   onClick={handleAdd}
@@ -57,13 +57,13 @@ import { Button } from '@/components/atoms';
 <Button label="Large" size="large" />
 
 // Disabled button
-<Button 
+<Button
   label="Disabled"
   disabled={true}
 />
 
 // Full width button
-<Button 
+<Button
   label="Submit"
   width="100%"
   onClick={handleSubmit}
@@ -76,7 +76,7 @@ import { Button } from '@/components/atoms';
 import { Input } from '@/components/atoms';
 
 // Text input
-<Input 
+<Input
   label="Full Name"
   placeholder="Enter your name"
   value={name}
@@ -84,7 +84,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Email input with error
-<Input 
+<Input
   type="email"
   label="Email Address"
   placeholder="name@example.com"
@@ -94,7 +94,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Password input
-<Input 
+<Input
   type="password"
   label="Password"
   placeholder="Enter password"
@@ -103,7 +103,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Number input
-<Input 
+<Input
   type="number"
   label="Amount"
   placeholder="0.00"
@@ -112,7 +112,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Date input
-<Input 
+<Input
   type="date"
   label="Transaction Date"
   value={date}
@@ -120,7 +120,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Input with prefix (icon)
-<Input 
+<Input
   prefix={<UserOutlined />}
   placeholder="Username"
   value={username}
@@ -128,7 +128,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Input with suffix
-<Input 
+<Input
   suffix={<EyeOutlined />}
   type="password"
   placeholder="Enter password"
@@ -137,7 +137,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Required field
-<Input 
+<Input
   label="Account Name"
   required={true}
   value={accountName}
@@ -145,7 +145,7 @@ import { Input } from '@/components/atoms';
 />
 
 // Disabled input
-<Input 
+<Input
   label="User ID"
   value={userId}
   disabled={true}
@@ -173,7 +173,7 @@ import { Card } from '@/components/atoms';
 </Card>
 
 // Card with title and footer
-<Card 
+<Card
   title="Account Details"
   footer={<Button label="Edit" />}
 >
@@ -181,7 +181,7 @@ import { Card } from '@/components/atoms';
 </Card>
 
 // Card with header action
-<Card 
+<Card
   title="Recent Transactions"
   extra={<Button label="View All" variant="ghost" />}
 >
@@ -189,7 +189,7 @@ import { Card } from '@/components/atoms';
 </Card>
 
 // Hoverable card (clickable)
-<Card 
+<Card
   title="Click me"
   hoverable
   onClick={handleCardClick}
@@ -252,7 +252,7 @@ import { Badge } from '@/components/atoms';
 <Badge size="large">Large</Badge>
 
 // Custom colors
-<Badge 
+<Badge
   backgroundColor="#e8f5e9"
   textColor="#2e7d32"
 >
@@ -357,7 +357,7 @@ import { LoadingSpinner } from '@/components/atoms';
 <LoadingSpinner color="warning" />
 
 // Full page overlay
-<LoadingSpinner 
+<LoadingSpinner
   fullPage={true}
   text="Processing your request..."
   size="large"
@@ -484,17 +484,17 @@ export const AccountFormExample: React.FC = () => {
     accountName: '',
     accountType: AccountType.BANK,
     initialBalance: 0,
-    currency: 'VND'
+    currency: 'VND',
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFieldChange = (field: keyof IFormData, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
     // Clear error on field change
     if (errors[field]) {
-      setErrors(prev => {
+      setErrors((prev) => {
         const newErrors = { ...prev };
         delete newErrors[field];
         return newErrors;
@@ -504,23 +504,23 @@ export const AccountFormExample: React.FC = () => {
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.accountName.trim()) {
       newErrors.accountName = 'Account name is required';
     }
     if (formData.initialBalance < 0) {
       newErrors.initialBalance = 'Balance cannot be negative';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
     try {
       // TODO: Call API to create account
@@ -553,8 +553,8 @@ export const AccountFormExample: React.FC = () => {
               { value: AccountType.CASH, label: 'Cash' },
               { value: AccountType.BANK, label: 'Bank Account' },
               { value: AccountType.CREDIT_CARD, label: 'Credit Card' },
-              { value: AccountType.DIGITAL_WALLET, label: 'Digital Wallet' }
-            ]
+              { value: AccountType.DIGITAL_WALLET, label: 'Digital Wallet' },
+            ],
           }}
           value={formData.accountType}
           onChange={(value) => handleFieldChange('accountType', value as AccountType)}
@@ -580,8 +580,8 @@ export const AccountFormExample: React.FC = () => {
             options: [
               { value: 'VND', label: 'Vietnamese Dong (VND)' },
               { value: 'USD', label: 'US Dollar (USD)' },
-              { value: 'EUR', label: 'Euro (EUR)' }
-            ]
+              { value: 'EUR', label: 'Euro (EUR)' },
+            ],
           }}
           value={formData.currency}
           onChange={(value) => handleFieldChange('currency', value as string)}
@@ -595,11 +595,7 @@ export const AccountFormExample: React.FC = () => {
             loading={isSubmitting}
             width="50%"
           />
-          <Button
-            label="Cancel"
-            variant="secondary"
-            width="50%"
-          />
+          <Button label="Cancel" variant="secondary" width="50%" />
         </div>
       </form>
     </Card>
@@ -632,7 +628,7 @@ function AccountsPage() {
   return (
     <div>
       {isLoading && <LoadingSpinner text="Loading accounts..." />}
-      {accounts.map(account => (
+      {accounts.map((account) => (
         <Card key={account.id} title={account.name}>
           Balance: {formatCurrency(account.balance)}
         </Card>

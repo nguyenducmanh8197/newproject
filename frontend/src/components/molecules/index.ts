@@ -3,4 +3,4 @@
  * Centralized export for all molecule components
  */
 
-export { FormField, type IFormFieldProps, type FormFieldType } from './FormField';
+export { FormField, type FormFieldType, type IFormFieldProps } from './FormField';

@@ -223,12 +223,12 @@
 
 | Component    | Status         | Est. Files | Complexity |
 | ------------ | -------------- | ---------- | ---------- |
-| Auth Module  | � Done        | 10+        | High       |
-| Dashboard    | � In Progress | 15+        | Medium     |
-| Transactions | � In Progress | 20+        | High       |
-| Accounts     | � Redux Done  | 15+        | Medium     |
-| Categories   | � Redux Done  | 15+        | Medium     |
-| Components   | � 6/10 Done   | 50+        | Low        |
+| Auth Module  | � Done         | 10+        | High       |
+| Dashboard    | � In Progress  | 15+        | Medium     |
+| Transactions | � In Progress  | 20+        | High       |
+| Accounts     | � Redux Done   | 15+        | Medium     |
+| Categories   | � Redux Done   | 15+        | Medium     |
+| Components   | � 6/10 Done    | 50+        | Low        |
 | Reports      | 🟥 Not Started | 20+        | Medium     |
 | **Total**    | **35% Done**   | ~145+      |            |
 

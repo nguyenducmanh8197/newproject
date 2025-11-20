@@ -4,10 +4,10 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { authReducer } from './modules/auth';
-import { transactionReducer } from './modules/transactions';
 import { accountReducer } from './modules/accounts';
+import { authReducer } from './modules/auth';
 import { categoryReducer } from './modules/categories';
+import { transactionReducer } from './modules/transactions';
 import rootSaga from './rootSaga';
 
 // Saga middleware

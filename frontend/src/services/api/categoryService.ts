@@ -3,13 +3,13 @@
  * Handles all category-related API calls
  */
 
-import apiClient from '../api';
 import type {
   ICategory,
+  ICategoryListResponse,
   ICreateCategoryPayload,
   IUpdateCategoryPayload,
-  ICategoryListResponse,
 } from '@/redux/modules/categories';
+import apiClient from '../api';
 
 const CATEGORY_ENDPOINTS = {
   LIST: '/categories',
@@ -25,10 +25,9 @@ class CategoryService {
    */
   async listCategories(filters?: Record<string, any>): Promise<ICategoryListResponse> {
     try {
-      const response = await apiClient.get<ICategoryListResponse>(
-        CATEGORY_ENDPOINTS.LIST,
-        { params: filters }
-      );
+      const response = await apiClient.get<ICategoryListResponse>(CATEGORY_ENDPOINTS.LIST, {
+        params: filters,
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -52,11 +51,10 @@ class CategoryService {
    */
   async createCategory(payload: ICreateCategoryPayload): Promise<ICategory> {
     try {
-      const response = await apiClient.post<ICategory>(
-        CATEGORY_ENDPOINTS.CREATE,
-        payload,
-        { showSuccessMessage: true, successMessage: 'Category created successfully' } as any
-      );
+      const response = await apiClient.post<ICategory>(CATEGORY_ENDPOINTS.CREATE, payload, {
+        showSuccessMessage: true,
+        successMessage: 'Category created successfully',
+      } as any);
       return response.data;
     } catch (error) {
       throw error;
@@ -68,11 +66,10 @@ class CategoryService {
    */
   async updateCategory(id: string, payload: IUpdateCategoryPayload): Promise<ICategory> {
     try {
-      const response = await apiClient.put<ICategory>(
-        CATEGORY_ENDPOINTS.UPDATE(id),
-        payload,
-        { showSuccessMessage: true, successMessage: 'Category updated successfully' } as any
-      );
+      const response = await apiClient.put<ICategory>(CATEGORY_ENDPOINTS.UPDATE(id), payload, {
+        showSuccessMessage: true,
+        successMessage: 'Category updated successfully',
+      } as any);
       return response.data;
     } catch (error) {
       throw error;
@@ -84,10 +81,10 @@ class CategoryService {
    */
   async deleteCategory(id: string): Promise<void> {
     try {
-      await apiClient.delete(
-        CATEGORY_ENDPOINTS.DELETE(id),
-        { showSuccessMessage: true, successMessage: 'Category deleted successfully' } as any
-      );
+      await apiClient.delete(CATEGORY_ENDPOINTS.DELETE(id), {
+        showSuccessMessage: true,
+        successMessage: 'Category deleted successfully',
+      } as any);
     } catch (error) {
       throw error;
     }

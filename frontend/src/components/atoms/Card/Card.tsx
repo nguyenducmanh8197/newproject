@@ -27,8 +27,8 @@ const StyledCard = styled.div<{
     props.$padding === 'small'
       ? 'padding: 12px;'
       : props.$padding === 'large'
-        ? 'padding: 24px;'
-        : 'padding: 16px;'}
+      ? 'padding: 24px;'
+      : 'padding: 16px;'}
 
   ${(props) =>
     props.$hoverable &&

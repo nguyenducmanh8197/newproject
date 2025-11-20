@@ -5,11 +5,11 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  IAccount,
+  IAccountFilters,
   ICreateAccountPayload,
   IDeleteAccountPayload,
   initialAccountState,
-  IAccount,
-  IAccountFilters,
   IUpdateAccountPayload,
 } from './accountTypes';
 

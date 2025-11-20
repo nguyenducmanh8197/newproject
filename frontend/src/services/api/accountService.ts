@@ -3,13 +3,13 @@
  * Handles all account-related API calls
  */
 
-import apiClient from '../api';
-import type { 
-  IAccount, 
-  ICreateAccountPayload, 
-  IUpdateAccountPayload,
+import type {
+  IAccount,
   IAccountListResponse,
+  ICreateAccountPayload,
+  IUpdateAccountPayload,
 } from '@/redux/modules/accounts';
+import apiClient from '../api';
 
 const ACCOUNT_ENDPOINTS = {
   LIST: '/accounts',
@@ -25,10 +25,9 @@ class AccountService {
    */
   async listAccounts(filters?: Record<string, any>): Promise<IAccountListResponse> {
     try {
-      const response = await apiClient.get<IAccountListResponse>(
-        ACCOUNT_ENDPOINTS.LIST,
-        { params: filters }
-      );
+      const response = await apiClient.get<IAccountListResponse>(ACCOUNT_ENDPOINTS.LIST, {
+        params: filters,
+      });
       return response.data;
     } catch (error) {
       throw error;
@@ -52,11 +51,10 @@ class AccountService {
    */
   async createAccount(payload: ICreateAccountPayload): Promise<IAccount> {
     try {
-      const response = await apiClient.post<IAccount>(
-        ACCOUNT_ENDPOINTS.CREATE,
-        payload,
-        { showSuccessMessage: true, successMessage: 'Account created successfully' } as any
-      );
+      const response = await apiClient.post<IAccount>(ACCOUNT_ENDPOINTS.CREATE, payload, {
+        showSuccessMessage: true,
+        successMessage: 'Account created successfully',
+      } as any);
       return response.data;
     } catch (error) {
       throw error;
@@ -68,11 +66,10 @@ class AccountService {
    */
   async updateAccount(id: string, payload: IUpdateAccountPayload): Promise<IAccount> {
     try {
-      const response = await apiClient.put<IAccount>(
-        ACCOUNT_ENDPOINTS.UPDATE(id),
-        payload,
-        { showSuccessMessage: true, successMessage: 'Account updated successfully' } as any
-      );
+      const response = await apiClient.put<IAccount>(ACCOUNT_ENDPOINTS.UPDATE(id), payload, {
+        showSuccessMessage: true,
+        successMessage: 'Account updated successfully',
+      } as any);
       return response.data;
     } catch (error) {
       throw error;
@@ -84,10 +81,10 @@ class AccountService {
    */
   async deleteAccount(id: string): Promise<void> {
     try {
-      await apiClient.delete(
-        ACCOUNT_ENDPOINTS.DELETE(id),
-        { showSuccessMessage: true, successMessage: 'Account deleted successfully' } as any
-      );
+      await apiClient.delete(ACCOUNT_ENDPOINTS.DELETE(id), {
+        showSuccessMessage: true,
+        successMessage: 'Account deleted successfully',
+      } as any);
     } catch (error) {
       throw error;
     }

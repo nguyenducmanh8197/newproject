@@ -48,6 +48,7 @@
 ### 5. Service Layer (NEW) ✅
 
 ✅ **accountService.ts** - CRUD operations
+
 - listAccounts() - With pagination & filters
 - getAccount(id) - Single account fetch
 - createAccount() - Create new account
@@ -55,6 +56,7 @@
 - deleteAccount() - Remove account
 
 ✅ **categoryService.ts** - Mirror patterns
+
 - All CRUD methods matching accountService
 - Consistent error handling
 - Type-safe throughout
@@ -62,6 +64,7 @@
 ### 6. Account Management Pages (NEW) ✅
 
 ✅ **AccountListPage.tsx** - 260 lines
+
 - Ant Design Table with full functionality
 - Delete with confirmation modal
 - Edit navigation with state passing
@@ -123,34 +126,42 @@ src/components/
 │   ├── AccountForm/         - TODO: Account form wrapper
 │   └── CategoryForm/        - TODO: Category form wrapper
 ```
-│   └── FilterBar/          - Filter component
+
+│ └── FilterBar/ - Filter component
+
 ```
 
 ### Phase 2: Transaction Enhancement (3-4 hours)
 
 ```
+
 src/pages/transactions/
-├── Complete TransactionListPage.tsx   - Full CRUD
-├── TransactionFormPage.tsx            - Create/Edit
-└── TransactionDetailPage.tsx          - View details
+├── Complete TransactionListPage.tsx - Full CRUD
+├── TransactionFormPage.tsx - Create/Edit
+└── TransactionDetailPage.tsx - View details
+
 ```
 
 ```
+
 src/components/molecules/
-├── TransactionForm/        - Complete form
-├── DateRangePicker/        - Date range filter
-└── AmountInput/           - Amount with formatting
+├── TransactionForm/ - Complete form
+├── DateRangePicker/ - Date range filter
+└── AmountInput/ - Amount with formatting
+
 ```
 
 ### Phase 3: Reports & Analytics (2-3 hours)
 
 ```
+
 src/pages/reports/
-├── ReportsPage.tsx          - Main reports view
-├── SummaryReport.tsx        - Income/Expense summary
-├── CategoryReport.tsx       - By category breakdown
-└── ExpenseTrendReport.tsx   - Time series chart
-```
+├── ReportsPage.tsx - Main reports view
+├── SummaryReport.tsx - Income/Expense summary
+├── CategoryReport.tsx - By category breakdown
+└── ExpenseTrendReport.tsx - Time series chart
+
+````
 
 ### Phase 4: UI Polish (2-3 hours)
 
@@ -171,7 +182,7 @@ import { Button, Input, Card, Badge, Select, LoadingSpinner } from '@/components
 
 // In your component
 <Button label="Click me" variant="primary" loading={isLoading} onClick={handleClick} />;
-```
+````
 
 ### To Use FormField:
 

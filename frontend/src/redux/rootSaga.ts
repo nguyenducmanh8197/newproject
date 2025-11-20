@@ -3,10 +3,10 @@
  */
 
 import { fork } from 'redux-saga/effects';
-import { authSaga } from './modules/auth';
-import { transactionSaga } from './modules/transactions';
 import { accountSaga } from './modules/accounts';
+import { authSaga } from './modules/auth';
 import { categorySaga } from './modules/categories';
+import { transactionSaga } from './modules/transactions';
 
 /**
  * Root saga that forks all feature sagas

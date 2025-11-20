@@ -3,14 +3,14 @@
  * Handles side effects for category operations (API calls, etc.)
  */
 
-import { put, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { put, takeEvery } from 'redux-saga/effects';
 import { categoryActions } from './categorySlice';
-import { 
-  ICreateCategoryPayload, 
-  IUpdateCategoryPayload, 
-  IDeleteCategoryPayload,
+import {
   ICategory,
+  ICreateCategoryPayload,
+  IDeleteCategoryPayload,
+  IUpdateCategoryPayload,
 } from './categoryTypes';
 
 // Placeholder for category service (will be implemented)
@@ -23,17 +23,21 @@ function* watchListCategories() {
   try {
     // TODO: Implement API call
     // const response = yield call(categoryService.listCategories, action.payload);
-    
+
     // Placeholder: Mock data
     const mockCategories: ICategory[] = [];
-    yield put(categoryActions.listCategoriesSuccess({
-      categories: mockCategories,
-      total: 0,
-      page: 1,
-      pageSize: 10,
-    }));
+    yield put(
+      categoryActions.listCategoriesSuccess({
+        categories: mockCategories,
+        total: 0,
+        page: 1,
+        pageSize: 10,
+      })
+    );
   } catch (error: any) {
-    yield put(categoryActions.listCategoriesFailure(error?.message || 'Failed to fetch categories'));
+    yield put(
+      categoryActions.listCategoriesFailure(error?.message || 'Failed to fetch categories')
+    );
   }
 }
 
@@ -44,7 +48,7 @@ function* watchCreateCategory(action: PayloadAction<ICreateCategoryPayload>) {
   try {
     // TODO: Implement API call
     // const response = yield call(categoryService.createCategory, action.payload);
-    
+
     // Placeholder: Mock data
     const mockCategory: ICategory = {
       id: Math.random().toString(36).substr(2, 9),
@@ -58,7 +62,7 @@ function* watchCreateCategory(action: PayloadAction<ICreateCategoryPayload>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(categoryActions.createCategorySuccess(mockCategory));
   } catch (error: any) {
     yield put(categoryActions.createCategoryFailure(error?.message || 'Failed to create category'));
@@ -72,7 +76,7 @@ function* watchUpdateCategory(action: PayloadAction<IUpdateCategoryPayload>) {
   try {
     // TODO: Implement API call
     // const response = yield call(categoryService.updateCategory, action.payload.id, action.payload);
-    
+
     // Placeholder: Mock data
     const mockCategory: ICategory = {
       id: action.payload.id,
@@ -86,7 +90,7 @@ function* watchUpdateCategory(action: PayloadAction<IUpdateCategoryPayload>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(categoryActions.updateCategorySuccess(mockCategory));
   } catch (error: any) {
     yield put(categoryActions.updateCategoryFailure(error?.message || 'Failed to update category'));
@@ -100,7 +104,7 @@ function* watchDeleteCategory(action: PayloadAction<IDeleteCategoryPayload>) {
   try {
     // TODO: Implement API call
     // yield call(categoryService.deleteCategory, action.payload.id);
-    
+
     yield put(categoryActions.deleteCategorySuccess({ id: action.payload.id }));
   } catch (error: any) {
     yield put(categoryActions.deleteCategoryFailure(error?.message || 'Failed to delete category'));
@@ -114,7 +118,7 @@ function* watchGetCategoryDetail(action: PayloadAction<{ id: string }>) {
   try {
     // TODO: Implement API call
     // const response = yield call(categoryService.getCategoryDetail, action.payload.id);
-    
+
     // Placeholder: Mock data
     const mockCategory: ICategory = {
       id: action.payload.id,
@@ -125,10 +129,12 @@ function* watchGetCategoryDetail(action: PayloadAction<{ id: string }>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(categoryActions.getCategoryDetailSuccess(mockCategory));
   } catch (error: any) {
-    yield put(categoryActions.getCategoryDetailFailure(error?.message || 'Failed to fetch category'));
+    yield put(
+      categoryActions.getCategoryDetailFailure(error?.message || 'Failed to fetch category')
+    );
   }
 }
 

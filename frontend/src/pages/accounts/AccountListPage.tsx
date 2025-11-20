@@ -12,12 +12,12 @@ import styled from 'styled-components';
 import DashboardLayout from '@/components/templates/DashboardLayout';
 import { useAppDispatch, useAppSelector, useNotification } from '@/hooks';
 import {
+  accountActions,
   IAccount,
   selectAccountError,
+  selectAccountPagination,
   selectAccounts,
   selectIsAccountLoading,
-  selectAccountPagination,
-  accountActions,
 } from '@/redux/modules/accounts';
 import accountService from '@/services/api/accountService';
 import { formatCurrency } from '@/utils/formatters';

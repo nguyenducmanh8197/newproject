@@ -3,8 +3,8 @@
  * Memoized selectors for efficient account state access
  */
 
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/redux/store';
+import { createSelector } from '@reduxjs/toolkit';
 
 // ============================================
 // BASE SELECTORS
@@ -16,10 +16,7 @@ const selectAccountState = (state: RootState) => state.accounts as any;
 // MEMOIZED SELECTORS
 // ============================================
 
-export const selectAccounts = createSelector(
-  [selectAccountState],
-  (state) => state.accounts
-);
+export const selectAccounts = createSelector([selectAccountState], (state) => state.accounts);
 
 export const selectCurrentAccount = createSelector(
   [selectAccountState],
@@ -31,25 +28,16 @@ export const selectIsAccountLoading = createSelector(
   (state) => state.isLoading
 );
 
-export const selectAccountError = createSelector(
-  [selectAccountState],
-  (state) => state.error
-);
+export const selectAccountError = createSelector([selectAccountState], (state) => state.error);
 
-export const selectAccountErrors = createSelector(
-  [selectAccountState],
-  (state) => state.errors
-);
+export const selectAccountErrors = createSelector([selectAccountState], (state) => state.errors);
 
 export const selectAccountPagination = createSelector(
   [selectAccountState],
   (state) => state.pagination
 );
 
-export const selectAccountFilters = createSelector(
-  [selectAccountState],
-  (state) => state.filters
-);
+export const selectAccountFilters = createSelector([selectAccountState], (state) => state.filters);
 
 export const selectAccountLastUpdated = createSelector(
   [selectAccountState],
@@ -76,9 +64,8 @@ export const selectTotalBalance = createSelector([selectAccounts], (accounts: an
 /**
  * Select active accounts only
  */
-export const selectActiveAccounts = createSelector(
-  [selectAccounts],
-  (accounts: any[]) => accounts.filter((acc: any) => acc.isActive)
+export const selectActiveAccounts = createSelector([selectAccounts], (accounts: any[]) =>
+  accounts.filter((acc: any) => acc.isActive)
 );
 
 /**

@@ -5,11 +5,11 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  ICategory,
+  ICategoryFilters,
   ICreateCategoryPayload,
   IDeleteCategoryPayload,
   initialCategoryState,
-  ICategory,
-  ICategoryFilters,
   IUpdateCategoryPayload,
 } from './categoryTypes';
 

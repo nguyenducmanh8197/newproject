@@ -3,14 +3,14 @@
  * Handles side effects for account operations (API calls, etc.)
  */
 
-import { put, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
+import { put, takeEvery } from 'redux-saga/effects';
 import { accountActions } from './accountSlice';
-import { 
-  ICreateAccountPayload, 
-  IUpdateAccountPayload, 
-  IDeleteAccountPayload,
+import {
   IAccount,
+  ICreateAccountPayload,
+  IDeleteAccountPayload,
+  IUpdateAccountPayload,
 } from './accountTypes';
 
 // Placeholder for account service (will be implemented)
@@ -23,15 +23,17 @@ function* watchListAccounts() {
   try {
     // TODO: Implement API call
     // const response = yield call(accountService.listAccounts, action.payload);
-    
+
     // Placeholder: Mock data
     const mockAccounts: IAccount[] = [];
-    yield put(accountActions.listAccountsSuccess({
-      accounts: mockAccounts,
-      total: 0,
-      page: 1,
-      pageSize: 10,
-    }));
+    yield put(
+      accountActions.listAccountsSuccess({
+        accounts: mockAccounts,
+        total: 0,
+        page: 1,
+        pageSize: 10,
+      })
+    );
   } catch (error: any) {
     yield put(accountActions.listAccountsFailure(error?.message || 'Failed to fetch accounts'));
   }
@@ -44,7 +46,7 @@ function* watchCreateAccount(action: PayloadAction<ICreateAccountPayload>) {
   try {
     // TODO: Implement API call
     // const response = yield call(accountService.createAccount, action.payload);
-    
+
     // Placeholder: Mock data
     const mockAccount: IAccount = {
       id: Math.random().toString(36).substr(2, 9),
@@ -61,7 +63,7 @@ function* watchCreateAccount(action: PayloadAction<ICreateAccountPayload>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(accountActions.createAccountSuccess(mockAccount));
   } catch (error: any) {
     yield put(accountActions.createAccountFailure(error?.message || 'Failed to create account'));
@@ -75,7 +77,7 @@ function* watchUpdateAccount(action: PayloadAction<IUpdateAccountPayload>) {
   try {
     // TODO: Implement API call
     // const response = yield call(accountService.updateAccount, action.payload.id, action.payload);
-    
+
     // Placeholder: Mock data
     const mockAccount: IAccount = {
       id: action.payload.id,
@@ -92,7 +94,7 @@ function* watchUpdateAccount(action: PayloadAction<IUpdateAccountPayload>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(accountActions.updateAccountSuccess(mockAccount));
   } catch (error: any) {
     yield put(accountActions.updateAccountFailure(error?.message || 'Failed to update account'));
@@ -106,7 +108,7 @@ function* watchDeleteAccount(action: PayloadAction<IDeleteAccountPayload>) {
   try {
     // TODO: Implement API call
     // yield call(accountService.deleteAccount, action.payload.id);
-    
+
     yield put(accountActions.deleteAccountSuccess({ id: action.payload.id }));
   } catch (error: any) {
     yield put(accountActions.deleteAccountFailure(error?.message || 'Failed to delete account'));
@@ -120,7 +122,7 @@ function* watchGetAccountDetail(action: PayloadAction<{ id: string }>) {
   try {
     // TODO: Implement API call
     // const response = yield call(accountService.getAccountDetail, action.payload.id);
-    
+
     // Placeholder: Mock data
     const mockAccount: IAccount = {
       id: action.payload.id,
@@ -134,7 +136,7 @@ function* watchGetAccountDetail(action: PayloadAction<{ id: string }>) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
+
     yield put(accountActions.getAccountDetailSuccess(mockAccount));
   } catch (error: any) {
     yield put(accountActions.getAccountDetailFailure(error?.message || 'Failed to fetch account'));

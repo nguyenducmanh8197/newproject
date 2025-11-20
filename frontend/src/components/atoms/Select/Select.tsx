@@ -3,9 +3,9 @@
  * Dropdown select with customization options
  */
 
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
 import { CloseOutlined, DownOutlined } from '@ant-design/icons';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { ISelectProps } from './Select.types';
 
@@ -233,7 +233,11 @@ export const Select: React.FC<ISelectProps> = ({
         onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         <StyledSelectValue $size={size}>
-          {selectedOption ? selectedOption.label : <StyledPlaceholder>{placeholder}</StyledPlaceholder>}
+          {selectedOption ? (
+            selectedOption.label
+          ) : (
+            <StyledPlaceholder>{placeholder}</StyledPlaceholder>
+          )}
         </StyledSelectValue>
         {selectedOption && clearable && !disabled && (
           <StyledClearIcon onClick={handleClear}>
